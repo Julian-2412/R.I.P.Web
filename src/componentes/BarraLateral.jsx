@@ -1,20 +1,34 @@
+import { NavLink, useNavigate } from 'react-router-dom';
+
 function BarraLateral() {
+  const usuario = localStorage.getItem('usuario') || 'Usuario';
+  const navigate = useNavigate();
+
+  function cerrarSesion() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuarioId');
+    localStorage.removeItem('usuario');
+    navigate('/', { replace: true });
+  }
+
   return (
-    <aside>
+    <aside className="barra-lateral">
       {/* Información del usuario */}
-      <section>
-        <img src="" alt="Foto de perfil del usuario" />
-        <h3>Nombre del usuario</h3>
-        <p>usuario@correo.com</p>
+      <section className="perfil-usuario">
+        <div className="avatar-usuario" aria-hidden="true">
+          {usuario.charAt(0).toUpperCase()}
+        </div>
+        <h3>{usuario}</h3>
+       {/*<p>usuario@correo.com</p>*/}
       </section>
 
       {/* Navegación */}
-      <nav>
+      <nav className="navegacion-principal">
         <ul>
           <li>
-            <a href="/">Inicio</a>
+            <NavLink to="/pagina-principal">Inicio</NavLink>
           </li>
-          <li>
+          {/* <li>
             <a href="/perfil">Mi perfil</a>
           </li>
           <li>
@@ -22,9 +36,15 @@ function BarraLateral() {
           </li>
           <li>
             <a href="/ayuda">Ayuda</a>
-          </li>
+          </li> */}
           <li>
-            <a href="/cerrar-sesion">Cerrar sesión</a>
+            <button
+              className="boton-cerrar-sesion"
+              type="button"
+              onClick={cerrarSesion}
+            >
+              Cerrar sesión
+            </button>
           </li>
         </ul>
       </nav>
